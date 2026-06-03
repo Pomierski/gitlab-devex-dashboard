@@ -1,0 +1,48 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="Sign In — GitLab Pipelines">
+  <div class="flex min-h-[70vh] items-center justify-center">
+    <div class="w-full max-w-sm rounded-xl border bg-card p-8 shadow-sm text-center space-y-6">
+      <div>
+        <h1 class="text-xl font-semibold">GitLab Pipelines Dashboard</h1>
+        <p class="text-sm text-muted-foreground mt-1">
+          Sign in with your GitLab account, or browse public projects without an account.
+        </p>
+      </div>
+
+      <a
+        href="/auth/initiate"
+        class="inline-flex w-full items-center justify-center gap-2 rounded-md bg-orange-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-orange-600 transition-colors"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 25 24" fill="currentColor">
+          <path
+            d="M24.507 9.5l-.034-.09L21.082.98a.896.896 0 00-1.694.091l-2.29 7.01H7.825L5.535 1.07A.896.896 0 003.84.98L.451 9.41l-.036.09a6.317 6.317 0 002.1 7.301l.012.01.03.022 5.184 3.88 2.57 1.94 1.565 1.183a1.038 1.038 0 001.26 0l1.565-1.183 2.57-1.94 5.214-3.902.014-.012a6.317 6.317 0 002.1-7.3z"
+          ></path>
+        </svg>
+        Continue with GitLab
+      </a>
+
+      <div class="flex items-center gap-3 text-xs text-muted-foreground">
+        <div class="flex-1 h-px bg-border"></div>
+        <span>or</span>
+        <div class="flex-1 h-px bg-border"></div>
+      </div>
+
+      <a
+        href="/auth/preview"
+        class="inline-flex w-full items-center justify-center gap-2 rounded-md border border-border px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+      >
+        Browse public projects (preview)
+      </a>
+
+      <p class="text-xs text-muted-foreground">
+        Sign-in requires <code class="font-mono">read_api</code> and <code class="font-mono"
+          >read_user</code
+        > scopes.<br />
+        Preview is read-only against curated public GitLab.com projects.
+      </p>
+    </div>
+  </div>
+</Layout>

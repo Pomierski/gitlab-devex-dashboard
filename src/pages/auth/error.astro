@@ -1,0 +1,13 @@
+---
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="Auth Error">
+  <div class="flex min-h-[70vh] items-center justify-center">
+    <div class="text-center space-y-4">
+      <h1 class="text-xl font-semibold text-red-600">Authentication Failed</h1>
+      <p class="text-sm text-muted-foreground">Something went wrong during sign-in.</p>
+      <a href="/auth/login" class="text-sm text-primary underline">Try again</a>
+    </div>
+  </div>
+</Layout>

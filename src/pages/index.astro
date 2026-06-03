@@ -1,0 +1,62 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { App } from '@/components/App';
+import { getSession, getAccessMode } from '@/lib/session';
+import { fetchProjects, fetchGroups, fetchAnalytics } from '@/lib/gitlabService';
+import { DEFAULT_FILTERS } from '@/types/gitlab';
+
+const response = new Response();
+const access = await getAccessMode(Astro.request, response);
+
+if (!access) {
+  return Astro.redirect('/auth/login');
+}
+
+const isPreview = access.type === 'preview';
+const token = access.type === 'authed' ? access.token : undefined;
+const extraPaths = access.type === 'preview' ? access.extraProjects : [];
+
+// User is only set in authed mode
+const session = isPreview ? null : await getSession(Astro.request, response);
+const user = session?.user;
+
+let projects, groups, summary;
+try {
+  const [p, g] = await Promise.all([
+    fetchProjects(token, { extraPaths }),
+    // Groups don't apply to anonymous traffic
+    isPreview ? Promise.resolve([]) : fetchGroups(token),
+  ]);
+  projects = p;
+  groups = g;
+  summary = await fetchAnalytics(token, projects, DEFAULT_FILTERS);
+} catch (err) {
+  if (err instanceof Error && err.message.includes('401')) {
+    if (session) session.destroy();
+    return Astro.redirect('/auth/login');
+  }
+  throw err;
+}
+---
+
+<Layout title="Dashboard — GitLab Pipelines" user={user}>
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold">Pipeline Dashboard</h1>
+    <p class="text-sm text-muted-foreground mt-1">
+      {
+        isPreview
+          ? `Preview mode · ${projects.length} public project${projects.length === 1 ? '' : 's'}`
+          : `${projects.length} projects across ${groups.length} groups`
+      }
+    </p>
+  </div>
+
+  <App
+    client:load
+    groups={groups}
+    projects={projects}
+    initialSummary={summary}
+    isPreview={isPreview}
+    extraProjects={extraPaths}
+  />
+</Layout>

@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+import type { GitLabUser } from '@/types/gitlab';
+
+interface Props {
+  title?: string;
+  user?: GitLabUser;
+}
+
+const { title = 'GitLab Pipelines Dashboard', user } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-background text-foreground">
+    <header class="border-b bg-card px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <svg class="h-6 w-6 text-orange-500" viewBox="0 0 25 24" fill="currentColor">
+          <path
+            d="M24.507 9.5l-.034-.09L21.082.98a.896.896 0 00-1.694.091l-2.29 7.01H7.825L5.535 1.07A.896.896 0 003.84.98L.451 9.41l-.036.09a6.317 6.317 0 002.1 7.301l.012.01.03.022 5.184 3.88 2.57 1.94 1.565 1.183a1.038 1.038 0 001.26 0l1.565-1.183 2.57-1.94 5.214-3.902.014-.012a6.317 6.317 0 002.1-7.3z"
+          ></path>
+        </svg>
+        <span class="font-semibold text-sm">GitLab Pipelines</span>
+      </div>
+      {
+        user && (
+          <div class="flex items-center gap-3">
+            <img src={user.avatar_url} alt={user.name} class="h-7 w-7 rounded-full" />
+            <span class="text-sm text-muted-foreground">{user.name}</span>
+            <a
+              href="/auth/logout"
+              class="text-xs text-muted-foreground hover:text-foreground underline"
+            >
+              Sign out
+            </a>
+          </div>
+        )
+      }
+    </header>
+
+    <div class="mx-auto max-w-screen-xl px-6 py-6">
+      <slot />
+    </div>
+  </body>
+</html>
