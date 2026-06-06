@@ -260,12 +260,14 @@ export function DashboardView({
   return (
     <Providers>
       <div className="flex gap-4">
-        <FilterSidebar
-          groups={groups}
-          projects={projects}
-          filters={filters}
-          onChange={setFilters}
-        />
+        <div className="hidden lg:block">
+          <FilterSidebar
+            groups={groups}
+            projects={projects}
+            filters={filters}
+            onChange={setFilters}
+          />
+        </div>
 
         <main className="flex-1 min-w-0 space-y-4">
           {isPreview && <PreviewBanner extraProjects={extraProjects} />}
@@ -395,7 +397,9 @@ export function DashboardView({
           )}
         </main>
 
-        <AlertPanel alerts={alerts} />
+        <div className="hidden lg:block">
+          <AlertPanel alerts={alerts} />
+        </div>
 
         {/* Floating bulk action bar — only in authed mode */}
         {!isPreview && <BulkActionBar selected={selected} onClear={() => setSelected([])} />}
