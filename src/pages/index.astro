@@ -32,7 +32,9 @@ try {
   summary = await fetchAnalytics(token, projects, DEFAULT_FILTERS);
 } catch (err) {
   if (err instanceof Error && err.message.includes('401')) {
-    if (session) session.destroy();
+    Astro.cookies.delete('gl_session', { path: '/' });
+    Astro.cookies.delete('gl_preview', { path: '/' });
+    Astro.cookies.delete('gl_preview_projects', { path: '/' });
     return Astro.redirect('/auth/login');
   }
   throw err;
