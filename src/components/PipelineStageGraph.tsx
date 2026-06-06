@@ -148,7 +148,7 @@ export function PipelineStageGraph({ projectId, pipelineId }: Props) {
 
   return (
     <TooltipProvider>
-      <div ref={ref} className="mt-3 flex items-start gap-0 overflow-x-auto pb-1 max-h-28 sm:max-h-none overflow-y-hidden">
+      <div ref={ref} className="mt-3 flex items-start gap-0 overflow-x-auto pb-1 max-h-32 sm:max-h-none overflow-y-auto">
         {stages.map((node, idx) => (
           <div key={node.stage} className="flex items-start">
             {idx > 0 && (
